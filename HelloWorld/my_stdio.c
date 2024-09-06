@@ -2,9 +2,9 @@
 
 void my_printf(char* str, ...) {
 
-	va_list ap;
-	va_start(ap, str);
-
+	va_list ap; //char* type pointer for reading variable arguments
+	va_start(ap, str); //ap is setted variable argument pointer and last address position after str address position
+						//ap를 가변인자 포인터로 읽을 준비를 한다는 표시화 동시에, 가변인자를 읽을 위치를 str주소 바로 앞으로 설정해서 매개변수 str 이후에 딱 붙어서 들어온 ...에 저장된 값의 시작주소로 ap를 설정한다.
 	while (*str) {
 
 		if (*str == '%') {
@@ -16,8 +16,8 @@ void my_printf(char* str, ...) {
 			switch (temp) {
 			case 'c':
 
-				val = va_arg(ap, int);
-
+				val = va_arg(ap, int); //for using putchar, character is saved in integer validation
+									   //putchar이 인자로 int를 받기 때문에 이를 사용하기 위해서 int형으로 받음
 				putchar(val);
 
 				break;
@@ -28,7 +28,7 @@ void my_printf(char* str, ...) {
 				char num[100] = { 0, }, count = 0;
 
 				while (val > 0) {
-					num[count++] = (val % 10)+48;
+					num[count++] = (val % 10)+48; 
 					val = val / 10;
 				}
 
@@ -76,6 +76,9 @@ void my_scanf(char* str, ...) {
 			char temp = *(++str);
 			
 			char val; //%c 서식일 경우 '\n'에 대한 처리를 하지 않는 점도 고려해보면 case안에 넣어야 할지도..?
+					  //아니지, 이전 저장값을 그대로 가지고 있다가 바로 탈출해버리는게 되는 거니깐
+					  //전역변수로 설정해서 초기화 되지 않게하고, val에 값이 남아있는지 확인하고 없으면 읽는
+					  //조건문을 추가해야 할듯?
 			while ((val = getchar()) == ' ');
 
 			switch (temp) {
